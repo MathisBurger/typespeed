@@ -13,9 +13,19 @@ import {
     Typography
 } from "@mui/joy";
 import {languages} from "@/app/languages";
-import {useState} from "react";
+import {useRouter} from "next/navigation";
+import {FormEvent} from "react";
 
 export default function Home() {
+
+    const router = useRouter();
+
+    const onSubmit = (e: FormEvent<HTMLFormElement>) => {
+        e.preventDefault();
+        const formData = new FormData(e.currentTarget);
+        const destination = `/start?lang=${formData.get('lang')}&secs=${formData.get('secs')}`;
+        router.push(destination);
+    }
 
   return (
     <main>
@@ -40,11 +50,11 @@ export default function Home() {
                     <b>Typespeed</b>
                 </Typography>
                 <Divider />
-                <form>
+                <form onSubmit={onSubmit}>
                     <Stack spacing={2}>
                         <FormControl style={{marginTop: '2em'}}>
                             <FormLabel>Programming language</FormLabel>
-                            <Select placeholder="Choose">
+                            <Select placeholder="Choose" name="lang">
                                 {languages.map((lang) => (
                                     <Option value={lang.name} key={lang.name}>{lang.name}</Option>
                                 ))}
@@ -52,9 +62,9 @@ export default function Home() {
                         </FormControl>
                         <FormControl>
                             <FormLabel>Duration in Seconds</FormLabel>
-                            <Input type="number" placeholder="600" />
+                            <Input type="number" placeholder="600" name="secs" />
                         </FormControl>
-                        <Button type="submit">Starten</Button>
+                        <Button type="submit">Start</Button>
                     </Stack>
                 </form>
             </div>
