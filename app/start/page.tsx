@@ -3,11 +3,8 @@ import {
     Button,
     CssBaseline,
     Divider,
-    FormControl,
-    FormLabel, Grid,
+    Grid,
     Input,
-    Option,
-    Select,
     Sheet,
     Stack,
     Typography
@@ -16,15 +13,27 @@ import RepeatIcon from '@mui/icons-material/Repeat';
 import {languages, words} from "@/app/languages";
 import {useRouter, useSearchParams} from "next/navigation";
 import {ChangeEvent, useEffect, useState} from "react";
-import Link from "next/link";
 import SettingsIcon from '@mui/icons-material/Settings';
 
 
+/**
+ * Displays the main type speed test interface and handles all user inputs
+ *
+ * @constructor
+ */
 const Start = () => {
 
+    /**
+     * Query parameters
+     */
     const params = useSearchParams();
     const router = useRouter();
 
+    /**
+     * Generates a random array of words
+     *
+     * @param len The amount of words in the array
+     */
     const generateText = (len: number): string[] => {
         let options = languages.filter((l) => l.name === params.get('lang'))[0].items.concat(words);
         const text: string[] = [];
@@ -43,6 +52,9 @@ const Start = () => {
     const [started, setStarted] = useState<boolean>(false);
 
 
+    /**
+     * Sets all variables ready for repeat
+     */
     const repeat = () => {
         setStarted(false);
         setTimeOver(false);
@@ -53,6 +65,9 @@ const Start = () => {
         setBadWorldCount(0);
     }
 
+    /**
+     * Counts down a second and handles time is over event
+     */
     const count = () => {
         const newTime = secondsLeft-1;
         if (newTime <= 0) {
@@ -61,18 +76,32 @@ const Start = () => {
         setSecondsLeft(newTime);
     }
 
+    /**
+     * Counts the seconds through timeouts
+     */
     useEffect(() => {
         if (started && !timeOver) {
             setTimeout(count, 1000);
         }
     }, [started, secondsLeft]);
+
     // @ts-ignore
+    /**
+     * Handles type event
+     *
+     * @param e Event
+     */
     const onType = (e: ChangeEvent<HTMLInputElement>) => {
         if (!timeOver) {
             setTypedText(e.target.value);
         }
     }
 
+    /**
+     * Handles enter press and input validation
+     *
+     * @param e event
+     */
     //@ts-ignore
     const onKeyDown = (e: KeyboardEvent<HTMLInputElement>) => {
         if (!started) {

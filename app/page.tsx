@@ -16,10 +16,20 @@ import {languages} from "@/app/languages";
 import {useRouter} from "next/navigation";
 import {FormEvent} from "react";
 
+/**
+ * Handles default language and time span selection
+ *
+ * @constructor
+ */
 export default function Home() {
 
     const router = useRouter();
 
+    /**
+     * handles form submit
+     *
+     * @param e form event
+     */
     const onSubmit = (e: FormEvent<HTMLFormElement>) => {
         e.preventDefault();
         const formData = new FormData(e.currentTarget);
