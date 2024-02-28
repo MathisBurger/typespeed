@@ -3,6 +3,4 @@ const nextConfig = {
     basePath: "/typespeed",
     output: 'export'
 }
-module.exports = nextConfig
-
-export default nextConfig;
+module.exports = nextConfig;
